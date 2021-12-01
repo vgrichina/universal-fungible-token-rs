@@ -1,12 +1,11 @@
 /*!
-* wNear NEP-141 Token contract
+* NEP-141 Token contract
 *
-* The aim of the contract is to enable the wrapping of the native NEAR token into a NEP-141 compatible token.
-* It supports methods `near_deposit` and `near_withdraw` that wraps and unwraps NEAR tokens.
-* They are effectively mint and burn underlying wNEAR tokens.
+* The aim of the contract is to provide basic token contract where ownere controls minting and burning.
+* It supports methods `ft_mint` and `ft_burn` that mint and burn underlying tokens.
 *
 * lib.rs is the main entry point.
-* w_near.rs contains interfaces for depositing and withdrawing
+* token.rs contains interfaces for minting and burning.
 */
 use near_contract_standards::fungible_token::metadata::{
     FungibleTokenMetadata, FungibleTokenMetadataProvider, FT_METADATA_SPEC,
@@ -20,8 +19,7 @@ use near_sdk::json_types::{ValidAccountId, U128, U64};
 use near_sdk::env;
 use near_sdk::{near_bindgen, AccountId, Duration, PanicOnDefault, Promise, PromiseOrValue, Timestamp};
 
-mod legacy_storage;
-mod w_near;
+mod token;
 
 near_sdk::setup_alloc!();
 
@@ -54,12 +52,12 @@ impl FungibleTokenMetadataProvider for Contract {
     fn ft_metadata(&self) -> FungibleTokenMetadata {
         FungibleTokenMetadata {
             spec: FT_METADATA_SPEC.to_string(),
-            name: String::from("Wrapped NEAR fungible token"),
-            symbol: String::from("wNEAR"),
+            name: String::from("Universal fungible token"),
+            symbol: String::from("SHITCOIN"),
             icon: None,
             reference: None,
             reference_hash: None,
-            decimals: 24,
+            decimals: 18,
         }
     }
 }
